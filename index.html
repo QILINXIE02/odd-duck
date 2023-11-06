@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odd Duck Product Voting</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <h1>Odd Duck Product Voting</h1>
+    <h2>Please click on the 3 rotating duck images to vote, thank you and view results after!</h2>
+
+    <div class="container">
+        <section class="title-section">
+            <h2>Title Section</h2>
+        </section>
+
+        <section class="main-section">
+            <div class="product-card">
+                <div class="result-section">
+                    <h3>Results</h3>
+                    <!-- Display vote counts here -->
+                </div>
+                <img id="product1" src="https://th.bing.com/th/id/OIP.Dwx96HrXj8dVo9vhqEYHqQHaHa?pid=ImgDet&rs=1" alt="Product 1">
+                <button id="vote1">Vote</button>
+            </div>
+
+            <div class="product-card">
+                <div class="result-section">
+                    <h3>Results</h3>
+                    <!-- Display vote counts here -->
+                </div>
+                <img id="product2" src="https://th.bing.com/th/id/OIP.lc1zaUPt_NCt6G7zxVAVcwHaHA?pid=ImgDet&rs=1" alt="Product 2">
+                <button id="vote2">Vote</button>
+            </div>
+
+            <div class="product-card">
+                <div class="result-section">
+                    <h3>Results</h3>
+                    <!-- Display vote counts here -->
+                </div>
+                <img id="product3" src="https://th.bing.com/th/id/OIP.D7E_BC3HvAld39mCpCyGoQHaFU?pid=ImgDet&w=680&h=489&rs=1" alt="Product 3">
+                <button id="vote3">Vote</button>
+            </div>
+
+            <button id="view-results" style="display: none">View Results</button>
+        </section>
+        
+        <section class="footer">
+            <p>Thank you for voting</p>
+        </section>
+    </div>
+    
+    <script src="js/app.js"></script>
+</body>
+</html>
