@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odd Duck Voting</title>
+    <style>
+        /* CSS styles go here */
+        body {
+          font-family: Arial, sans-serif;
+          text-align: center;
+          margin: 0;
+          padding: 0;
+        }
+
+        .container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+          background-color: #f5f5f5;
+        }
+
+        h1, h2 {
+          margin: 0;
+        }
+
+        .main-section {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 20px;
+        }
+
+        .product-card {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin: 10px;
+          padding: 10px;
+          border: 1px solid #ccc;
+          background-color: #fff;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .result-section {
+          text-align: left;
+          margin: 10px;
+        }
+
+        img {
+          max-width: 300px;
+          height: auto;
+          cursor: pointer;
+        }
+
+        button {
+          cursor: pointer;
+        }
+
+        #view-results {
+          margin: 20px;
+        }
+
+        .footer {
+          margin: 20px;
+          text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Odd Duck Voting</h1>
+    <h2>Please click on the 3 random chosen images to vote, and view results after!</h2>
+
+    <div class="container">
+        <section class="title-section">
+            <h2>Please vote one each round</h2>
+        </section>
+
+        <section class="main-section">
+            <!-- Product cards go here -->
+            <div class="product-card">
+                <div class="result-section">
+                    <h3>Results</h3>
+                    <span id="result1">0 votes</span>
+                </div>
+                <img id="product1" src="img/duck1.jpg" alt="Product 1" width="200" height="150">
+                <button id="vote1">Vote</button>
+            </div>
+
+            <div class="product-card">
+                <div class="result-section">
+                    <h3>Results</h3>
+                    <span id="result2">0 votes</span>
+                </div>
+                <img id="product2" src="img/duck2.jpg" alt="Product 2" width="200" height="150">
+                <button id="vote2">Vote</button>
+            </div>
+
+            <div class="product-card">
+                <div class="result-section">
+                    <h3>Results</h3>
+                    <span id="result3">0 votes</span>
+                </div>
+                <img id="product3" src="img/duck3.jpg" alt="Product 3" width="200" height="150">
+                <button id="vote3">Vote</button>
+            </div>
+
+            <button id="view-results" style="display: none">View Results</button>
+        </section>
+
+        <section class="footer">
+            <h2><strong>Employee can vote for 1 of the 3 products displayed that they think should be the next new products brought to market.</strong></h2>
+        </section>
+    </div>
+
+    <script>
+        // JavaScript code goes here
+        // Constructor function to create product objects
+        function Product(name, imagePath) {
+          this.name = name;
+          this.imagePath = imagePath;
+          this.timesShown = 0;
+          this.timesClicked = 0;
+        }
+
+        // Define an array of product data
+        const productData = [
+          { name: 'Product1', imagePath: 'img/duck1.jpg' },
+          { name: 'Product2', imagePath: 'img/duck2.jpg' },
+          { name: 'Product3', imagePath: 'img/duck3.jpg' },
+            { name: 'Product4', imagePath: 'img/assets/bag.jpg' },
+  { name: 'Product5', imagePath: 'img/assets/banana.jpg' },
+  { name: 'Product6', imagePath: 'img/assets/boots.jpg' },
+  { name: 'Product7', imagePath: 'img/assets/breakfast.jpg' },
+  { name: 'Product8', imagePath: 'img/assets/bubblegum.jpg' },
+  { name: 'Product9', imagePath: 'img/assets/chair.jpg' },
+  { name: 'Product10', imagePath: 'img/assets/bathroom.jpg' },
+  { name: 'Product11', imagePath: 'img/assets/cthulhu.jpg' },
+  { name: 'Product12', imagePath: 'img/assets/dog-duck.jpg' },
+  { name: 'Product13', imagePath: 'img/assets/unicorn.jpg' },
+  { name: 'Product14', imagePath: 'img/assets/pen.jpg' },
+  { name: 'Product15', imagePath: 'img/assets/pet-sweep.jpg' },
+  { name: 'Product16', imagePath: 'img/assets/scissors.jpg' },
+];
+        ];
+
+        // Define the number of images to display
+        const numImages = productData.length;
+
+        // Create an array of product objects
+        const products = productData.map(data => new Product(data.name, data.imagePath));
+
+        const rounds = 25; // Number of voting rounds
+
+        let currentRound = 0;
+        const viewResultsButton = document.getElementById('view-results');
+
+        // Function to display three unique products
+        function displayProducts() {
+          const productIndices = [];
+
+          while (productIndices.length < numImages) {
+            const randomIndex = Math.floor(Math.random() * products.length);
+            if (!productIndices.includes(randomIndex)) {
+              productIndices.push(randomIndex);
+              products[randomIndex].timesShown++;
+            }
+          }
+
+          for (let i = 0; i < numImages; i++) {
+            const product = products[productIndices[i]];
+            const productCard = document.getElementById(`product${i + 1}`);
+            productCard.innerHTML = `
+              <h3>${product.name}</h3>
+              <img src="${product.imagePath}" alt="${product.name}" width="200" height="150">
+              <button data-product-index="${productIndices[i]}">Vote</button>
+              <div class="votes">${product.timesClicked} votes</div>
+            `;
+          }
+        }
+
+        // Handle user clicks on vote buttons
+        function handleVoteClick(event) {
+          if (currentRound < rounds) {
+            const clickedButton = event.target;
+            if (clickedButton.tagName === 'BUTTON') {
+              const productIndex = clickedButton.getAttribute('data-product-index');
+              const product = products[productIndex];
+              product.timesClicked++;
+              document.querySelector(`#product${productIndex} .votes`).textContent = `${product.timesClicked} votes`;
+              currentRound++;
+
+              if (currentRound < rounds) {
+                // If the voting rounds are not completed, refresh the images
+                displayProducts();
+              } else {
+                viewResultsButton.style.display = 'block';
