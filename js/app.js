@@ -11,7 +11,6 @@ const productData = [
   { name: 'Product1', imagePath: 'https://th.bing.com/th/id/OIP.Dwx96HrXj8dVo9vhqEYHqQHaHa?pid=ImgDet&rs=1' },
   { name: 'Product2', imagePath: 'https://th.bing.com/th/id/OIP.lc1zaUPt_NCt6G7zxVAVcwHaHA?pid=ImgDet&rs=1' },
   { name: 'Product3', imagePath: 'https://th.bing.com/th/id/OIP.D7E_BC3HvAld39mCpCyGoQHaFU?pid=ImgDet&w=680&h=489&rs=1' },
-  // Add more product data as needed
 ];
 
 // Define the number of images to display
@@ -42,11 +41,11 @@ function displayProducts() {
     productElement.src = product.imagePath;
     productElement.alt = product.name;
     document.getElementById(`result${i + 1}`).textContent = `${product.timesClicked} votes`;
-    document.getElementById(`vote${i + 1}`).disabled = false; // Enable vote buttons
+    document.getElementById(`vote${i + 1}`).disabled = false; // vote buttons enabled
   }
 }
 
-// Function to handle user clicks on vote buttons
+// handle user clicks on vote buttons
 function handleVoteClick(event) {
   if (currentRound < rounds) {
     const clickedButton = event.target;
@@ -56,7 +55,7 @@ function handleVoteClick(event) {
     product.timesClicked++;
     document.getElementById(`result${index + 1}`).textContent = `${product.timesClicked} votes`;
 
-    document.getElementById(`vote${index + 1}`).disabled = true; // Disable the button after voting
+    document.getElementById(`vote${index + 1}`).disabled = true; //button after voting disabled
     currentRound++;
   }
 
@@ -66,7 +65,7 @@ function handleVoteClick(event) {
   }
 }
 
-// Function to remove event listeners from vote buttons
+//remove event listeners from vote buttons
 function removeEventListeners() {
   for (let i = 0; i < numImages; i++) {
     const voteButton = document.getElementById(`vote${i + 1}`);
@@ -96,8 +95,6 @@ document.querySelector('.main-section').addEventListener('click', (event) => {
   }
 });
 
-// Event listener to view results
 viewResultsButton.addEventListener('click', displayViewResults);
 
-// Initial product display
 displayProducts();
