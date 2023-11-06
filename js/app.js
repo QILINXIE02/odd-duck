@@ -8,9 +8,22 @@ function Product(name, imagePath) {
 
 // Define an array of product data
 const productData = [
-  { name: 'Product1', imagePath: 'https://th.bing.com/th/id/OIP.Dwx96HrXj8dVo9vhqEYHqQHaHa?pid=ImgDet&rs=1' },
-  { name: 'Product2', imagePath: 'https://th.bing.com/th/id/OIP.lc1zaUPt_NCt6G7zxVAVcwHaHA?pid=ImgDet&rs=1' },
-  { name: 'Product3', imagePath: 'https://th.bing.com/th/id/OIP.D7E_BC3HvAld39mCpCyGoQHaFU?pid=ImgDet&w=680&h=489&rs=1' },
+  { name: 'Product1', imagePath: 'img/duck1' },
+  { name: 'Product2', imagePath: 'img/duck2' },
+  { name: 'Product3', imagePath: 'img/duck3' },
+  { name: 'Product4', imagePath: 'img/assets/bag.jpg' },
+  { name: 'Product5', imagePath: 'img/assets/banana.jpg' },
+  { name: 'Product6', imagePath: 'img/assets/boots.jpg' },
+  { name: 'Product7', imagePath: 'img/assets/breakfast.jpg' },
+  { name: 'Product8', imagePath: 'img/assets/bubblegum.jpg' },
+  { name: 'Product9', imagePath: 'img/assets/chair.jpg' },
+  { name: 'Product10', imagePath: 'img/assets/bathroom.jpg' },
+  { name: 'Product11', imagePath: 'img/assets/cthulhu.jpg' },
+  { name: 'Product12', imagePath: 'img/assets/dog-duck.jpg' },
+  { name: 'Product13', imagePath: 'img/assets/unicorn.jpg' },
+  { name: 'Product14', imagePath: 'img/assets/pen.jpg' },
+  { name: 'Product15', imagePath: 'img/assets/pet-sweep.jpg' },
+  { name: 'Product16', imagePath: 'img/assets/scissors.jpg' },
 ];
 
 // Define the number of images to display
@@ -27,6 +40,15 @@ const viewResultsButton = document.getElementById('view-results');
 // Function to display three unique products
 function displayProducts() {
   const productIndices = [];
+  
+  // Check if the user has voted 35 rounds, and if so, reset the round counter and allow voting again
+  if (currentRound === 35) {
+    currentRound = 0;
+    products.forEach(product => {
+      product.timesClicked = 0;
+    });
+  }
+  
   while (productIndices.length < numImages) {
     const randomIndex = Math.floor(Math.random() * products.length);
     if (!productIndices.includes(randomIndex)) {
@@ -41,7 +63,7 @@ function displayProducts() {
     productElement.src = product.imagePath;
     productElement.alt = product.name;
     document.getElementById(`result${i + 1}`).textContent = `${product.timesClicked} votes`;
-    document.getElementById(`vote${i + 1}`).disabled = false; // vote buttons enabled
+    document.getElementById(`vote${i + 1}`).disabled = false; // Enable vote buttons
   }
 }
 
@@ -98,3 +120,4 @@ document.querySelector('.main-section').addEventListener('click', (event) => {
 viewResultsButton.addEventListener('click', displayViewResults);
 
 displayProducts();
+
