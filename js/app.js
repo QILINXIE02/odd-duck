@@ -6,28 +6,34 @@ function Product(name, imagePath) {
 }
 
 const productData = [
-    { name: 'Product1', imagePath: 'img/assets/duck1.jpg' },
-    { name: 'Product2', imagePath: 'img/assets/duck2.jpg' },
-    { name: 'Product3', imagePath: 'img/assets/duck3.jpg' },
-    { name: 'Product4', imagePath: 'img/assets/bag.jpg' },
-    { name: 'Product5', imagePath: 'img/assets/banana.jpg' },
-    { name: 'Product6', imagePath: 'img/assets/bathroom.jpg' },
-    { name: 'Product7', imagePath: 'img/assets/boots.jpg' },
-    { name: 'Product8', imagePath: 'img/assets/breakfast.jpg' },
-    { name: 'Product9', imagePath: 'img/assets/bubblegum.jpg' },
-    { name: 'Product10', imagePath: 'img/assets/chair.jpg' },
-    { name: 'Product11', imagePath: 'img/assets/water-can.jpg' },
-    { name: 'Product12', imagePath: 'img/assets/dog-duck.jpg' },
-    { name: 'Product13', imagePath: 'img/assets/dragon.jpg' },
-    { name: 'Product14', imagePath: 'img/assets/pen.jpg' },
-    { name: 'Product15', imagePath: 'img/assets/pet-sweep.jpg' },
-    { name: 'Product16', imagePath: 'img/assets/scissors.jpg' },
-    { name: 'Product16', imagePath: 'img/assets/shark.jpg' },
-    { name: 'Product17', imagePath: 'img/assets/unicorn.jpg' },
-    { name: 'Product18', imagePath: 'img/assets/tauntaun.jpg' },
+    { name: 'duck1', imagePath: 'img/assets/duck1.jpg' },
+    { name: 'duck2', imagePath: 'img/assets/duck2.jpg' },
+    { name: 'duck3', imagePath: 'img/assets/duck3.jpg' },
+    { name: 'bag', imagePath: 'img/assets/bag.jpg' },
+    { name: 'banana', imagePath: 'img/assets/banana.jpg' },
+    { name: 'bathroom', imagePath: 'img/assets/bathroom.jpg' },
+    { name: 'boots', imagePath: 'img/assets/boots.jpg' },
+    { name: 'breakfast', imagePath: 'img/assets/breakfast.jpg' },
+    { name: 'bubblegum', imagePath: 'img/assets/bubblegum.jpg' },
+    { name: 'chair', imagePath: 'img/assets/chair.jpg' },
+    { name: 'water-can', imagePath: 'img/assets/water-can.jpg' },
+    { name: 'dog-duck', imagePath: 'img/assets/dog-duck.jpg' },
+    { name: 'dragon', imagePath: 'img/assets/dragon.jpg' },
+    { name: 'pen', imagePath: 'img/assets/pen.jpg' },
+    { name: 'pet-sweep', imagePath: 'img/assets/pet-sweep.jpg' },
+    { name: 'scissors', imagePath: 'img/assets/scissors.jpg' },
+    { name: 'shark', imagePath: 'img/assets/shark.jpg' },
+    { name: 'unicorn', imagePath: 'img/assets/unicorn.jpg' },
+    { name: 'tauntaun', imagePath: 'img/assets/tauntaun.jpg' },
 ];
 
-const numImages = productData.length;
+function Product(name, imagePath) {
+    this.name = name;
+    this.imagePath = imagePath;
+    this.timesShown = 0;
+    this.timesClicked = 0;
+}
+
 const products = productData.map(data => new Product(data.name, data.imagePath));
 
 const rounds = 25;
@@ -35,18 +41,19 @@ let currentRound = 0;
 const showResultsButton = document.getElementById('show-results');
 const resultsList = document.getElementById('results-list');
 const productImages = document.querySelector('.upper-right');
+const chartCanvas = document.getElementById('vote-chart').getContext('2d'); // Canvas for the chart
 
 function displayProducts() {
-    productImages.innerHTML = ''; // Clear existing product images
+    productImages.innerHTML = '';
 
-    shuffleArray(products); // Shuffle the products array
+    shuffleArray(products);
 
     for (let i = 0; i < 3; i++) {
         const product = products[i];
         productImages.innerHTML += `
             <img src="${product.imagePath}" alt="${product.name}">
         `;
-        product.timesShown++; // Increment the timesShown for the displayed products
+        product.timesShown++;
     }
 }
 
@@ -91,7 +98,44 @@ function displayViewResults() {
         resultsList.appendChild(resultElement);
     }
 
+    renderChart();
     showResultsButton.style.display = 'none';
+}
+
+function renderChart() {
+    const productNames = products.map(product => product.name);
+    const voteCounts = products.map(product => product.timesClicked);
+    const viewCounts = products.map(product => product.timesShown);
+
+    new Chart(chartCanvas, {
+        type: 'bar',
+        data: {
+            labels: productNames,
+            datasets: [
+                {
+                    label: 'Votes',
+                    data: voteCounts,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                },
+                {
+                    label: 'Views',
+                    data: viewCounts,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                },
+            },
+        },
+    });
 }
 
 displayProducts();
