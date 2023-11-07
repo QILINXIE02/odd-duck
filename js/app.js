@@ -39,21 +39,21 @@ const productImages = document.querySelector('.upper-right');
 function displayProducts() {
     productImages.innerHTML = ''; // Clear existing product images
 
-    const productIndices = [];
-
-    while (productIndices.length < 3) {
-        const randomIndex = Math.floor(Math.random() * products.length);
-        if (!productIndices.includes(randomIndex)) {
-            productIndices.push(randomIndex);
-            products[randomIndex].timesShown++;
-        }
-    }
+    shuffleArray(products); // Shuffle the products array
 
     for (let i = 0; i < 3; i++) {
-        const product = products[productIndices[i]];
+        const product = products[i];
         productImages.innerHTML += `
             <img src="${product.imagePath}" alt="${product.name}">
         `;
+        product.timesShown++; // Increment the timesShown for the displayed products
+    }
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
     }
 }
 
