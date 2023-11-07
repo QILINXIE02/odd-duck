@@ -1,85 +1,98 @@
- function Product(name, imagePath) {
-            this.name = name;
-            this.imagePath = imagePath;
-            this.timesShown = 0;
-            this.timesClicked = 0;
+function Product(name, imagePath) {
+    this.name = name;
+    this.imagePath = imagePath;
+    this.timesShown = 0;
+    this.timesClicked = 0;
+}
+
+const productData = [
+    { name: 'Product1', imagePath: 'img/assets/duck1.jpg' },
+    { name: 'Product2', imagePath: 'img/assets/duck2.jpg' },
+    { name: 'Product3', imagePath: 'img/assets/duck3.jpg' },
+    { name: 'Product4', imagePath: 'img/assets/bag.jpg' },
+    { name: 'Product5', imagePath: 'img/assets/banana.jpg' },
+    { name: 'Product6', imagePath: 'img/assets/bathroom.jpg' },
+    { name: 'Product7', imagePath: 'img/assets/boots.jpg' },
+    { name: 'Product8', imagePath: 'img/assets/breakfast.jpg' },
+    { name: 'Product9', imagePath: 'img/assets/bubblegum.jpg' },
+    { name: 'Product10', imagePath: 'img/assets/chair.jpg' },
+    { name: 'Product11', imagePath: 'img/assets/water-can.jpg' },
+    { name: 'Product12', imagePath: 'img/assets/dog-duck.jpg' },
+    { name: 'Product13', imagePath: 'img/assets/dragon.jpg' },
+    { name: 'Product14', imagePath: 'img/assets/pen.jpg' },
+    { name: 'Product15', imagePath: 'img/assets/pet-sweep.jpg' },
+    { name: 'Product16', imagePath: 'img/assets/scissors.jpg' },
+    { name: 'Product16', imagePath: 'img/assets/shark.jpg' },
+    { name: 'Product17', imagePath: 'img/assets/unicorn.jpg' },
+    { name: 'Product18', imagePath: 'img/assets/tauntaun.jpg' },
+];
+
+const numImages = productData.length;
+const products = productData.map(data => new Product(data.name, data.imagePath));
+
+const rounds = 25;
+let currentRound = 0;
+const showResultsButton = document.getElementById('show-results');
+const resultsList = document.getElementById('results-list');
+const productImages = document.querySelector('.upper-right');
+
+function displayProducts() {
+    productImages.innerHTML = ''; // Clear existing product images
+
+    const productIndices = [];
+
+    while (productIndices.length < 3) {
+        const randomIndex = Math.floor(Math.random() * products.length);
+        if (!productIndices.includes(randomIndex)) {
+            productIndices.push(randomIndex);
+            products[randomIndex].timesShown++;
         }
+    }
 
-        const productData = [
-            { name: 'Product1', imagePath: 'img/duck1.jpg' },
-            { name: 'Product2', imagePath: 'img/duck2.jpg' },
-            { name: 'Product3', imagePath: 'img/duck3.jpg' },
-            // more products...
-        ];
+    for (let i = 0; i < 3; i++) {
+        const product = products[productIndices[i]];
+        productImages.innerHTML += `
+            <img src="${product.imagePath}" alt="${product.name}">
+        `;
+    }
+}
 
-        const numImages = productData.length;
-        const products = productData.map(data => new Product(data.name, data.imagePath));
 
-        const rounds = 25;
-        let currentRound = 0;
-        const viewResultsButton = document.getElementById('view-results');
+function handleVoteClick(index) {
+    if (currentRound < rounds) {
+        const product = products[index];
+        product.timesClicked++;
+        currentRound++;
 
-        function displayProducts() {
-            const productIndices = [];
-
-            while (productIndices.length < numImages) {
-                const randomIndex = Math.floor(Math.random() * products.length);
-                if (!productIndices.includes(randomIndex)) {
-                    productIndices.push(randomIndex);
-                    products[randomIndex].timesShown++;
-                }
-            }
-
-            for (let i = 0; i < numImages; i++) {
-                const product = products[productIndices[i]];
-                const productCard = document.getElementById(`product${i + 1}`);
-                productCard.innerHTML = `
-                    <div class="result-section">
-                        <h3>Results</h3>
-                        <span class="votes">${product.timesClicked} votes</span>
-                    </div>
-                    <img src="${product.imagePath}" alt="${product.name}" width="200" height="150">
-                    <button class="vote-button">Vote</button>
-                `;
-            }
-
-            const voteButtons = document.querySelectorAll('.vote-button');
-            voteButtons.forEach((button, index) => {
-                button.addEventListener('click', () => {
-                    handleVoteClick(index);
-                });
-            });
+        if (currentRound < rounds) {
+            displayProducts();
+        } else {
+            showResultsButton.style.display = 'block';
         }
+    }
+}
 
-        function handleVoteClick(index) {
-            if (currentRound < rounds) {
-                const product = products[index];
-                product.timesClicked++;
-                const productCard = document.getElementById(`product${index + 1}`);
-                productCard.querySelector('.votes').textContent = `${product.timesClicked} votes`;
-                currentRound++;
-                if (currentRound < rounds) {
-                    displayProducts();
-                } else {
-                    viewResultsButton.style.display = 'block';
-                }
-            }
-        }
+productImages.addEventListener('click', (event) => {
+    if (event.target.tagName === 'IMG') {
+        const index = Array.from(productImages.children).indexOf(event.target);
+        handleVoteClick(index);
+    }
+});
 
-        viewResultsButton.addEventListener('click', displayViewResults);
+showResultsButton.addEventListener('click', () => {
+    displayViewResults();
+});
 
-        function displayViewResults() {
-            const resultsContainer = document.createElement('div');
-            resultsContainer.classList.add('results-container');
+function displayViewResults() {
+    resultsList.innerHTML = ''; // Clear existing results
 
-            for (const product of products) {
-                const resultElement = document.createElement('p');
-                resultElement.textContent = `${product.name} had ${product.timesClicked} votes and was seen ${product.timesShown} times.`;
-                resultsContainer.appendChild(resultElement);
-            }
+    for (const product of products) {
+        const resultElement = document.createElement('li');
+        resultElement.textContent = `${product.name} had ${product.timesClicked} votes and was seen ${product.timesShown} times.`;
+        resultsList.appendChild(resultElement);
+    }
 
-            document.body.appendChild(resultsContainer);
-            viewResultsButton.style.display = 'none';
-        }
+    showResultsButton.style.display = 'none';
+}
 
-        displayProducts();
+displayProducts();

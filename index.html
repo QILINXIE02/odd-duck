@@ -3,56 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Odd Duck Voting</title>
     <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Odd duck voting</title>
 </head>
 <body>
-    <h1>Odd Duck Voting</h1>
-    <h2>Please click on the 3 random chosen images to vote, and view results after!</h2>
-
-    <div class="container">
-        <section class="title-section">
-            <h2>Please vote one each round</h2>
-        </section>
-
-        <section class="main-section">
-            <!-- Product cards go here -->
-            <div class="product-card" id="product1">
-                <div class="result-section">
-                    <h3>Results</h3>
-                    <span class="votes">0 votes</span>
-                </div>
-                <img src="img/duck1.jpg" alt="Product 1" width="200" height="150">
-                <button class="vote-button">Vote</button>
+    <header>
+        <h1>Odd duck voting</h1>
+    </header>
+    <main class="body-container">
+        <section class="right-section">
+            <div class="upper-right">
+                <!-- Product images via JavaScript -->
             </div>
-
-            <div class="product-card" id="product2">
-                <div class="result-section">
-                    <h3>Results</h3>
-                    <span class="votes">0 votes</span>
-                </div>
-                <img src="img/duck2.jpg" alt="Product 2" width="200" height="150">
-                <button class="vote-button">Vote</button>
-            </div>
-
-            <div class="product-card" id="product3">
-                <div class="result-section">
-                    <h3>Results</h3>
-                    <span class="votes">0 votes</span>
-                </div>
-                <img src="img/duck3.jpg" alt="Product 3" width="200" height="150">
-                <button class="vote-button">Vote</button>
-            </div>
-
-            <button id="view-results" style="display: none">View Results</button>
-        </section>
-
+            <div class="lower-right">
         <section class="footer">
             <h2><strong>Employee can vote for 1 of the 3 products displayed that they think should be the next new products brought to market.</strong></h2>
         </section>
+        <article class="left-section">
+            <h2>Results shown here</h2>
+            <ul id="results-list">
+                <!-- Results via JavaScript -->
+            </ul>
+        </article>
     </div>
-
+    <button id="show-results" style="display: none">Show Results</button>
+            </div>
+        </section>
+    </main>
+    <footer>
+        &copy Copyright 2023
+    </footer>
     <script src="js/app.js"></script>
 </body>
 </html>
