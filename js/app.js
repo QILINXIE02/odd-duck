@@ -57,7 +57,6 @@ function displayProducts() {
     }
 }
 
-
 function handleVoteClick(index) {
     if (currentRound < rounds) {
         const product = products[index];
@@ -84,7 +83,7 @@ showResultsButton.addEventListener('click', () => {
 });
 
 function displayViewResults() {
-    resultsList.innerHTML = ''; // Clear existing results
+    resultsList.innerHTML = '';
 
     for (const product of products) {
         const resultElement = document.createElement('li');
