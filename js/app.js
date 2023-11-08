@@ -27,12 +27,6 @@ const productData = [
     { name: 'tauntaun', imagePath: 'img/assets/tauntaun.jpg' },
 ];
 
-function Product(name, imagePath) {
-    this.name = name;
-    this.imagePath = imagePath;
-    this.timesShown = 0;
-    this.timesClicked = 0;
-}
 
 const products = productData.map(data => new Product(data.name, data.imagePath));
 
@@ -41,7 +35,7 @@ let currentRound = 0;
 const showResultsButton = document.getElementById('show-results');
 const resultsList = document.getElementById('results-list');
 const productImages = document.querySelector('.upper-right');
-const chartCanvas = document.getElementById('vote-chart').getContext('2d'); // Canvas for the chart
+const chartCanvas = document.getElementById('vote-chart').getContext('2d'); 
 
 function displayProducts() {
     productImages.innerHTML = '';
@@ -139,3 +133,33 @@ function renderChart() {
 }
 
 displayProducts();
+
+localStorage.setItem('productsData', JSON.stringify(products));
+
+function getProductsData() {
+    const storedData = localStorage.getItem('productsData');
+    if (storedData) {
+        const parsedData = JSON.parse(storedData);
+        const productsArray = parsedData.map(data => new Product(data.name, data.imagePath));
+
+        return productsArray;
+    }
+
+    return null;
+}
+
+function initializeProducts() {
+    const storedProducts = getProductsData();
+
+    if (storedProducts) {
+        products = storedProducts;
+    } else {
+        // Initialize products array as you were doing before
+        // For example: products = productData.map(data => new Product(data.name, data.imagePath));
+    }
+}
+
+function start() {
+    initializeProducts();
+}
+
