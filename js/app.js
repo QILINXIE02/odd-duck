@@ -1,21 +1,18 @@
 
-//fresh start plz, 2:14pm
-
 'use strict';
 
 class Product {
-  constructor(name, imagePath) {
+  constructor(name, imagePath,shown=0,click=0) {
     this.name = name;
     this.imagePath = imagePath;
-    this.timesShown = 0;
-    this.timesClicked = 0;
+    this.timesShown = shown;
+    this.timesClicked = click;
   }
 
   getImageURL() {
     return this.imagePath;
   }
 }
-
 
 const productData = [
     { name: 'duck1', imagePath: 'img/assets/duck1.jpg' },
@@ -57,7 +54,7 @@ function initializeProducts() {
 function getProductsData() {
   const storedData = localStorage.getItem('productsData');
   if (storedData) {
-    return JSON.parse(storedData).map(data => new Product(data.name, data.imagePath));
+    return JSON.parse(storedData).map(data => new Product(data.name, data.imagePath,data.timesShown, data.timesClicked));
   }
   return null;
 }
