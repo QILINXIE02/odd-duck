@@ -1,3 +1,4 @@
+//fix glboal constructor and function getProductsData() to store datas for lab13
 
 'use strict';
 
